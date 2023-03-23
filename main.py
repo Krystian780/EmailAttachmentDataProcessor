@@ -11,27 +11,27 @@ import re
 
 outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
 inbox = outlook.GetDefaultFolder(6)
-messages = inbox.Items
-message = messages.GetFirst()
-today_date = str(datetime.date.today())
+inboxMessages = inbox.Items
+todayDate = str(datetime.date.today())
 
-for message in messages:
+for message in inboxMessages:
  try:
-    current_sender = str(message.Sender).lower()
-    current_subject = str(message.Subject).lower()
-    message_date = str(message.senton.date())
-    if re.search('coupa report: waw fsc',current_subject) != None and message_date == today_date:
-      print(current_subject)
-      print(current_sender)
-      attachments = message.Attachments
-      attachment = attachments.Item(1)
-      attachment_name = str(attachment).lower()
-      attachment.SaveASFile("C:\\Users\\skomuda\\Amadeus Workplace\\Testing" + '\\' + attachment_name)
+    currentSender = str(message.Sender).lower()
+    currentSubject = str(message.Subject).lower()
+    messageReceivedDate = str(message.senton.date())
+    if re.search('coupa report: waw fsc', currentSubject) != None and\
+    messageReceivedDate == todayDate:
+      print(currentSubject)
+      print(currentSender)
+      messageAttachments = message.Attachments
+      messageAttachment = messageAttachments.Item(1)
+      attachmentName = str(messageAttachment).lower()
+      messageAttachment.SaveASFile("C:\\Users\\skomuda\\Amadeus Workplace\\Testing" + '\\' + attachmentName)
     else:
         pass
-    message = messages.GetNext()
+    message = inboxMessages.GetNext()
  except:
-    message = messages.GetNext()
+    message = inboxMessages.GetNext()
 
 dir_path = r'C:\\Users\\skomuda\\Amadeus Workplace\\Testing\\'
 
